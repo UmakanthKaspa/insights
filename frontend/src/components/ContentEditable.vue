@@ -50,6 +50,13 @@ const props = defineProps({
 
 const element = ref()
 
+function sanitizeHtml(html) {
+	// Create a temporary div to sanitize HTML
+	const temp = document.createElement('div')
+	temp.textContent = html
+	return temp.innerHTML
+}
+
 function currentContent() {
 	return props.noHtml ? element.value?.innerText : element.value?.innerHTML
 }
@@ -58,7 +65,8 @@ function updateContent(newcontent) {
 	if (props.noHtml) {
 		element.value.innerText = newcontent
 	} else {
-		element.value.innerHTML = newcontent
+		// Sanitize HTML to prevent XSS
+		element.value.innerHTML = sanitizeHtml(newcontent)
 	}
 }
 

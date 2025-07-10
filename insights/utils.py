@@ -182,7 +182,7 @@ def anonymize_data(df, columns_to_anonymize, prefix_by_column=None):
 
 def xls_to_df(file_path: str) -> list[pd.DataFrame]:
     file_extension = file_path.split(".")[-1].lower()
-    if file_extension != "xlsx" or file_extension != "xls":
+    if file_extension not in ["xlsx", "xls"]:
         frappe.throw(f"Unsupported file extension: {file_extension}")
 
     sheets = {}

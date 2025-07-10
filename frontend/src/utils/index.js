@@ -193,8 +193,8 @@ export function safeJSONParse(str, defaultValue = null) {
 		return JSON.parse(str)
 	} catch (e) {
 		console.groupCollapsed('Error parsing JSON')
-		console.log(str)
-		console.error(e)
+		// Log only the error, not the potentially sensitive input data
+		console.error('JSON parsing failed:', e.message)
 		console.groupEnd()
 		createToast({
 			message: 'Error parsing JSON',
