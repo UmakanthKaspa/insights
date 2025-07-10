@@ -19,6 +19,13 @@ const formattedValue = computed(() => {
 	}
 	return $utils.formatNumber(_value, props.options.decimals)
 })
+
+function onNumberClick() {
+	if (!props.options.query) return
+	
+	// Open the query in a new tab for drill down
+	window.open(`/insights/query/build/${props.options.query}`, '_blank')
+}
 </script>
 
 <template>
@@ -32,7 +39,14 @@ const formattedValue = computed(() => {
 			<div class="w-full">
 				<span class="truncate font-medium leading-6">{{ props.options.title }}</span>
 			</div>
-			<div class="text-[28px] font-medium leading-10">
+			<div 
+				:class="[
+					'text-[28px] font-medium leading-10',
+					props.options.query ? 'cursor-pointer hover:opacity-80 transition-opacity' : ''
+				]"
+				@click="props.options.query ? onNumberClick() : null"
+				:title="props.options.query ? 'Click to view detailed data' : ''"
+			>
 				{{ props.options.prefix }}{{ formattedValue }}{{ props.options.suffix }}
 			</div>
 		</div>
@@ -40,4 +54,6 @@ const formattedValue = computed(() => {
 	<template v-else>
 		<slot name="placeholder"></slot>
 	</template>
+
+
 </template>
